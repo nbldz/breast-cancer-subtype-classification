@@ -1,0 +1,243 @@
+# TCGA-BRCA Multimodal Classification Project Structure
+
+## Directory Structure
+```
+tcga-brca-multimodal/
+├── README.md
+├── setup.py
+├── .gitignore
+├── config.py                 # Configuration management
+├── main.py                   # Main execution script
+├── dataset.py               # Your existing dataset module
+├── multimodal.py            # Your existing multimodal models
+├── training_module.py       # Your existing training functions
+├── utility.py               # Your existing utility functions
+├── experiments/
+│   ├── __init__.py
+│   ├── ablation_study.py    # Ablation experiments
+│   ├── hyperparameter_search.py
+│   └── cross_validation.py
+├── scripts/
+│   ├── download_data.sh
+│   ├── preprocess_data.py
+│   └── run_experiments.sh
+├── notebooks/
+│   ├── data_exploration.ipynb
+│   ├── model_analysis.ipynb
+│   └── results_visualization.ipynb
+├── tests/
+│   ├── __init__.py
+│   ├── test_dataset.py
+│   ├── test_models.py
+│   └── test_training.py
+└── results/                 # Generated during runs
+    ├── models/
+    ├── plots/
+    ├── logs/
+    └── config.yaml
+```
+
+## Setup Files
+
+### requirements.txt
+```
+torch>=1.12.0
+torchvision>=0.13.0
+numpy>=1.21.0
+pandas>=1.3.0
+scikit-learn>=1.0.0
+matplotlib>=3.5.0
+seaborn>=0.11.0
+tqdm>=4.62.0
+PyYAML>=6.0
+tensorboard>=2.8.0
+```
+
+### setup.py
+```python
+from setuptools import setup, find_packages
+
+setup(
+    name="tcga-brca-multimodal",
+    version="1.0.0",
+    author="Your Name",
+    author_email="your.email@example.com",
+    description="Multimodal classification for TCGA-BRCA using WSI and RNA-seq data",
+    long_description=open("README.md").read(),
+    long_description_content_type="text/markdown",
+    packages=find_packages(),
+    install_requires=[
+        "torch>=1.12.0",
+        "torchvision>=0.13.0",
+        "numpy>=1.21.0",
+        "pandas>=1.3.0",
+        "scikit-learn>=1.0.0",
+        "matplotlib>=3.5.0",
+        "seaborn>=0.11.0",
+        "tqdm>=4.62.0",
+        "PyYAML>=6.0",
+        "tensorboard>=2.8.0",
+    ],
+    python_requires=">=3.7",
+    classifiers=[
+        "Development Status :: 4 - Beta",
+        "Intended Audience :: Science/Research",
+        "License :: OSI Approved :: MIT License",
+        "Programming Language :: Python :: 3",
+        "Programming Language :: Python :: 3.7",
+        "Programming Language :: Python :: 3.8",
+        "Programming Language :: Python :: 3.9",
+        "Topic :: Scientific/Engineering :: Artificial Intelligence",
+        "Topic :: Scientific/Engineering :: Bio-Informatics",
+    ],
+)
+```
+
+### .gitignore
+```
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# PyTorch
+*.pth
+*.pt
+
+# Data
+data/
+*.csv
+*.tsv
+*.h5
+*.hdf5
+
+# Results
+results/
+logs/
+checkpoints/
+outputs/
+
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Environment
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+```
+
+## Usage Examples
+
+### Basic Usage
+```bash
+# Run with default configuration
+python main.py
+
+# Run specific experiment type
+python main.py --experiment ablation
+
+# Use custom config file
+python main.py --config my_config.yaml
+```
+
+### Advanced Usage
+```bash
+# Run cross-validation
+python main.py --experiment cv
+
+# Run hyperparameter search
+python main.py --experiment hyperparameter
+```
+
+## Configuration Examples
+
+### Custom Config File (config.yaml)
+```yaml
+data:
+  pt_dir: "/path/to/your/pt_files"
+  rna_file: "/path/to/your/rna_data.csv"
+  subtype_file: "/path/to/your/subtypes.csv"
+  max_patches: 512
+  test_size: 0.2
+
+model:
+  hidden_dim: 1024
+  num_classes: 4
+  dropout_wsi: 0.3
+  dropout_rna: 0.4
+
+training:
+  num_epochs: 50
+  batch_size: 16
+  learning_rate: 0.0002
+  weight_decay: 0.0001
+
+experiment:
+  experiment_name: "my_experiment"
+  output_dir: "./my_results"
+  visualize_attention: true
+  visualize_embeddings: true
+```
+
+## Getting Started
+
+1. **Clone and setup:**
+   ```bash
+   git clone https://github.com/yourusername/tcga-brca-multimodal.git
+   cd tcga-brca-multimodal
+   pip install -e .
+   ```
+
+2. **Prepare your data:**
+   - Update paths in `config.py` or create a custom config file
+   - Ensure your data follows the expected format
+
+3. **Run experiments:**
+   ```bash
+   python main.py --experiment default
+   ```
+
+4. **View results:**
+   - Check the `results/` directory for models, plots, and logs
+   - Use the Jupyter notebooks for detailed analysis
+
+## Key Features
+
+✅ **Modular Design**: Separate modules for dataset, models, training, and utilities
+✅ **Configuration Management**: Flexible config system with YAML support  
+✅ **Multiple Model Types**: Multimodal, WSI-only, and RNA-only classifiers
+✅ **Comprehensive Evaluation**: Classification reports, confusion matrices, attention visualization
+✅ **Experiment Tracking**: Automatic result saving and logging
+✅ **Extensible**: Easy to add new models, datasets, or experiments
