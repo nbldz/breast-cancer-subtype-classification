@@ -65,7 +65,7 @@ pip install tqdm
 ### Clone Repository
 
 ```bash
-git clone https://github.com/yourusername/tcga-brca-multimodal.git
+git clone https://github.com/nbldz/tcga-brca-multimodal.git
 cd tcga-brca-multimodal
 ```
 
@@ -167,13 +167,7 @@ The code generates several output files:
 - `multimodal_attention_visualization.png`
 - `embeddings_visualization.png`
 
-## 🤝 Contributing
 
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
 
 ## 📝 Citation
 
@@ -182,9 +176,9 @@ If you use this code in your research, please cite:
 ```bibtex
 @software{tcga_brca_multimodal,
   title={Enhanced Multi-modal Subtype Classification for TCGA-BRCA},
-  author={Your Name},
+  author={Nabil Hezil et al.},
   year={2024},
-  url={https://github.com/yourusername/tcga-brca-multimodal}
+  url={https://github.com/nbldz/tcga-brca-multimodal}
 }
 ```
 
@@ -206,7 +200,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 🐛 Issues
 
-If you encounter any issues or have questions, please open an issue on the [GitHub Issues](https://github.com/yourusername/tcga-brca-multimodal/issues) page.
+If you encounter any issues or have questions, please open an issue on the [GitHub Issues](https://github.com/nbldz/tcga-brca-multimodal/issues) page.
 
 ---
 
