@@ -1,0 +1,127 @@
+# CDLS Default Configuration
+# All hyperparameters as described in the paper
+
+# ─── Seeds ────────────────────────────────────────────────────────────────────
+seeds: [42, 123, 789, 2024]
+deterministic: true
+
+# ─── Data ─────────────────────────────────────────────────────────────────────
+data:
+  tcga_brca_dir: data/processed/tcga_brca
+  bcsc_dir:      data/processed/bcsc
+  metabric_dir:  data/processed/metabric
+  split_ratios:  [0.70, 0.15, 0.15]   # train / val / test
+  num_workers:   8
+
+# ─── WSI Preprocessing ────────────────────────────────────────────────────────
+wsi:
+  magnification:    20          # ×
+  patch_size:       256         # px
+  stride:           256         # non-overlapping
+  tissue_threshold: 0.50        # Otsu HSV foreground fraction
+  stain_norm:       macenko
+  patches_per_slide_median: 800
+  extractor:        convnext_base
+  extractor_dim:    1024
+  pretrained_weights: imagenet
+
+# ─── RNA-seq ──────────────────────────────────────────────────────────────────
+rna:
+  n_genes:           20481       # post PAM50-exclusion
+  normalisation:     log2tpm1    # log2(TPM + 1)
+  z_score:           true        # on training split only
+
+# ─── BCSC ─────────────────────────────────────────────────────────────────────
+bcsc:
+  feature_dim:  7               # per-visit features (Table III)
+  gru_hidden:   64
+  gru_dropout:  0.2
+
+# ─── Clinical ─────────────────────────────────────────────────────────────────
+clinical:
+  input_dim:   C                # placeholder; set per cohort
+  hidden_dim:  256
+
+# ─── Encoders ─────────────────────────────────────────────────────────────────
+wsi_encoder:
+  transformer_layers:   2
+  transformer_heads:    8
+  output_dim:           768      # h_wsi
+
+rna_encoder:
+  layers:    [20481, 1024, 512, 512]
+  bn:        true
+  dropout:   0.3
+  output_dim: 512               # psi_rna
+
+# ─── Fusion & Projector ───────────────────────────────────────────────────────
+fusion:
+  input_dim:   1600             # 768+512+64+256
+  layers:      [1600, 512, 128, 7]
+  dropout:     0.1
+
+# ─── Latent Space ─────────────────────────────────────────────────────────────
+latent:
+  dtwin:       7                # empirically guided by d_id = 6.3±0.4
+  T:           5                # refinement horizon (optimisation steps)
+
+# ─── Twin-GRU ─────────────────────────────────────────────────────────────────
+twin_gru:
+  hidden_size: 128
+  dropout:     0.1
+  weight_decay: 1.0e-5
+  sigma:       0.5              # tanh scaling
+
+# ─── Closed-Loop Feedback ─────────────────────────────────────────────────────
+feedback:
+  lambda_feedback: 0.1          # feedback strength
+  k_neighbours:    5            # kNN neighbours
+
+# ─── PPO ──────────────────────────────────────────────────────────────────────
+ppo:
+  policy_lr:     3.0e-4
+  clip_eps:      0.2
+  gae_lambda:    0.95
+  update_epochs: 10             # K update epochs per rollout
+  alpha_rew:     1.0            # CE weight
+  beta_rew:      0.5            # Cox weight
+  gamma_rew:     1.0e-3         # action norm weight
+  policy_layers: [128, 64]
+  activation:    tanh
+
+# ─── Survival Head ────────────────────────────────────────────────────────────
+cox:
+  hidden_dim:         32
+  beta_loss:          0.5       # Cox term weight in training objective
+  min_events_per_batch: 10      # event-enforced batching
+
+# ─── Training ─────────────────────────────────────────────────────────────────
+training:
+  batch_size:     256
+  max_epochs:     50
+  patience:       10
+  weight_decay_convnext: 1.0e-4
+  weight_decay_other:    1.0e-5
+  optimiser:      adamw
+  alpha_obj:      1.0           # CE weight in Eq. 1
+  beta_obj:       0.5           # Cox weight in Eq. 1
+
+# ─── Augmentation ─────────────────────────────────────────────────────────────
+augmentation:
+  flip_p:         0.5
+  brightness:     0.2
+  contrast:       0.2
+  rotation:       15            # degrees
+
+# ─── Evaluation ───────────────────────────────────────────────────────────────
+eval:
+  primary_metrics:   [balanced_accuracy, mcc]
+  bootstrap_n:       5000
+  cv_folds:          5
+  sigma_threshold:   0.034      # differences below this not interpreted
+
+# ─── Logging ──────────────────────────────────────────────────────────────────
+logging:
+  checkpoint_dir: checkpoints
+  log_dir:        logs
+  save_best:      true

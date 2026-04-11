@@ -1,0 +1,49 @@
+# CDLS: Cross-Cohort Modality-Disjoint Latent Simulation
+# Requirements
+
+# Core Deep Learning
+torch>=2.0.0
+torchvision>=0.15.0
+torchaudio>=2.0.0
+
+# Model Architecture
+timm>=0.9.0                # ConvNeXt-Base feature extractor
+
+# Data Processing
+numpy>=1.24.0
+pandas>=2.0.0
+scikit-learn>=1.3.0
+scipy>=1.11.0
+
+# WSI Processing
+openslide-python>=1.3.0   # WSI slide reading
+opencv-python>=4.8.0       # Tissue segmentation (Otsu)
+Pillow>=10.0.0             # Image utilities
+
+# RNA-seq / Genomics
+# (no special package required; standard numpy/pandas)
+
+# Visualisation
+matplotlib>=3.7.0
+seaborn>=0.12.0
+umap-learn>=0.5.3          # UMAP for P3 panel (optional but recommended)
+
+# Survival Analysis
+lifelines>=0.27.0          # C-index calculation (optional; numpy fallback included)
+
+# Utilities
+PyYAML>=6.0
+tqdm>=4.65.0
+
+# Optional: Experiment Tracking
+# wandb>=0.15.0
+# tensorboard>=2.13.0
+
+# Development
+pytest>=7.4.0
+black>=23.0.0
+isort>=5.12.0
+
+# Note: openslide also requires the openslide C library.
+# On Ubuntu/Debian: sudo apt-get install openslide-tools
+# On macOS:         brew install openslide
