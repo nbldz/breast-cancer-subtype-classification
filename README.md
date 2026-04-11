@@ -163,7 +163,7 @@ Launches the 6-panel interface:
 ```bibtex
 @article{hezil2025cdls,
   title={A Digital Twin--Inspired Closed-Loop Latent Simulation Framework for Cross-Cohort Breast Cancer Subtype Classification under Modality-Disjoint Learning},
-  author={Hezil, Nabil and Bouridane, Ahmed and Hamoudi, Rifat and Al-Maadeed, Somaya and Kunhoth, Suchithra and Abdullakutty, Faseela and Akbari, Younes},
+  author={Hezil Nabil,  Ahmed Bouridane, Hamoudi Rifat,  Somaya Al-Maadeed, Kunhoth Suchithra, Abdullakutty Faseela,  Akbari Younes},
   journal={IEEE Journal of Biomedical and Health Informatics},
   year={2025}
 }
